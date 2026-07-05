@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Таро</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            background-color: #121212; /* Глубокий темный фон */
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: sans-serif;
+        }
+        .card {
+            width: 200px;
+            height: 300px;
+            background: linear-gradient(135deg, #1f1f1f, #2c2c2c);
+            border: 1px solid #444;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+        .card:hover { transform: scale(1.05); }
+        .card.flipped { transform: rotateY(180deg); }
+    </style>
+</head>
+<body>
+
+    <div class="card" id="tarotCard">
+        <h2>?</h2>
+    </div>
+
+    <script>
+        // Инициализируем Telegram Web App
+        const tg = window.Telegram.WebApp;
+        tg.expand(); // Разворачиваем на весь экран
+
+        // Массив для примера (в идеале тут все 78 карт)
+        const cards = ["The Fool (Шут)", "The Magician (Маг)", "The High Priestess (Жрица)"];
+
+        document.getElementById('tarotCard').addEventListener('click', function() {
+            // Анимация переворота
+            this.classList.add('flipped');
+            
+            // Выбираем случайную карту
+            const randomCard = cards[Math.floor(Math.random() * cards.length)];
+            
+            // Небольшая задержка для красоты анимации, затем отправляем данные в бота
+            setTimeout(() => {
+                tg.sendData(randomCard); 
+            }, 800);
+        });
+    </script>
+</body>
+</html>
